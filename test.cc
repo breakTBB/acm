@@ -2,24 +2,20 @@
 
 using namespace std;
 
+bool isPrime(int n) {
+    for (int i = 2; i <= sqrt(n); i++)
+        if (n % i == 0) return false;
+    return true;
+}
+
+
 int main() {
-    stack<int> s;
-    string str;
-    while(cin >> str) {
-        if (isdigit(str)) s.push(atoi(str.c_str()));
-        else {
-            if (str == "+") {
-                int a = s.top();s.pop();
-                int b = s.top();s.pop();
-                s.push(a+b);
-            }
-            if (str == "-") {
-                int a = s.top();s.pop();
-                int b = s.top();s.pop();
-                s.push(b-a);
-            }
-        }
+    int cnt, tmp;
+    cin >> cnt;
+    for (int i = 0; i < cnt; i++) {
+        scanf("%d", &tmp);
+        if (isPrime(tmp)) puts("Yes");
+        else puts("No");
     }
-    cout << s.top();
     system("pause");
 }
