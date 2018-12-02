@@ -11,7 +11,7 @@ long long extendGcd(long long a, long long b, long long &x, long long &y)
 {
     if (a == 0 && b == 0)
     {
-        return -1;  //  无最大公约数
+        return -1; //  无最大公约数
     }
     if (b == 0)
     {
@@ -30,16 +30,12 @@ long long modReverse(long long a, long long n)
     long long x, y;
     long long d = extendGcd(a, n, x, y);
     if (d == 1)
-    {
         return (x % n + n) % n;
-    }
     else
-    {
-        return -1;  //  无逆元
-    }
+        return -1; //  无逆元
 }
 
-int main(int argc, const char * argv[])
+int main(int argc, const char *argv[])
 {
     long long M, N;
 
