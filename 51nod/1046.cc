@@ -1,16 +1,6 @@
 // A^B%C
-
 #include <stdio.h>
-// 1 1 1 1 1 1 1 1
-// 2 4 8 6 2 4 8 6
-// 3 9 7 1 3 9 7 1
-// 4 6 4 6 4 6 4 6
-// 5 5 5 5 5 5 5 5
-// 6 6 6 6 6 6 6 6
-// 7 9 3 1 7 9 3 1
-// 8 4 2 6 8 4 2 6
-// 9 1 9 1 9 1 9 1
-// 0 0 0 0 0 0 0 0
+#include <stdlib.h>
 
 long PowerMod(long long A, long long B, long long C)
 {
@@ -40,11 +30,17 @@ int pm(int a, int b, int c) {
     }
 }
 
+struct x {
+    int abcd;
+    int xyz;
+};
+
 int main(int argc, const char * argv[])
 {
     long long A, B, C;
     scanf("%lld %lld %lld", &A, &B, &C);
 
     printf("%ld\n", PowerMod(A, B, C));
+    system("pause");
     return 0;
 }
