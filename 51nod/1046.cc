@@ -18,18 +18,6 @@ long PowerMod(long long A, long long B, long long C)
     return ans;
 }
 
-int pm(int a, int b, int c) {     
-    long ans = 1;
-    a = a % c;
-    while (b > 0) {
-        if (b&1==1) {
-            ans = (ans * a) %c;
-        }
-        b /= 2;
-        a = (a * a) % c;
-    }
-}
-
 struct x {
     int abcd;
     int xyz;

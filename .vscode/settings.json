@@ -1,8 +1,8 @@
 {
-    "editor.fontSize": 16,
-    "terminal.integrated.fontSize": 16,
-    "terminal.integrated.fontFamily": "Consolas, 'Courier New', monospace",
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iomanip": "cpp",
+        "map": "cpp",
+        "ostream": "cpp"
     }
 }
