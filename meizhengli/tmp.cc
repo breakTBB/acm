@@ -2,11 +2,17 @@
 
 using namespace std;
 
-int cmp(const void* a, const void*  b) {
-    return *(int*)a - *(int*)b;
-}
-
 int main() {
-    int a[] = {1, 10, 2, 4, 0};
-    qsort(a, sizeof(a) / sizeof(int), sizeof(int), cmp);
+    int t;
+    cin >> t;
+    while(t--) {
+        string str;
+        cin >> str;
+        int ans = 0;
+        int len = str.length();
+        for (register int i = 0; i < len; i++) {
+            ans = (ans * 10 + (str[i] - '0')) % 9;
+        }
+        cout << ans << endl;
+    }
 }
