@@ -1,5 +1,5 @@
 // https://vjudge.net/problem/POJ-2251
-//MLE可能是爆栈了
+// MLE可能是爆栈了
 
 #include <iostream>
 #include <climits>

@@ -1,20 +1,15 @@
-//区间不满足可加性，所以更新必须O（N）
-//好像由于自己写的快读造成了MLE？？？
-//puts("")和cout << endl;居然不一样
-// 变量类型更改后，也要注意更改函数的返回类型
-
 #include <bits/stdc++.h>
 
 #define lc (id << 1)
 #define rc (id << 1 | 1)
 #define mid (t[id].l + t[id].r >> 1)
 
-using namespace std;
-
 typedef long long ll;
 
+using namespace std;
+
 const int maxn = 1e5 + 10;
-int n;
+int n, m;
 
 struct Node {
 	int l, r;
@@ -38,7 +33,7 @@ void build(int id, int l, int r) {
 
 void update(int id, int ql, int qr) {
 	if (t[id].l > qr || t[id].r < ql) return;
-	if (t[id].r - t[id].l + 1 == t[id].sum) return;
+	if (t[id].sum == t[id].r - t[id].l + 1) return;
 	if (t[id].l == t[id].r) {
 		t[id].sum = sqrt(t[id].sum);
 		return;
@@ -49,7 +44,7 @@ void update(int id, int ql, int qr) {
 	pushup(id);
 }
 
-ll query(int id, int ql, int qr) {
+int query(int id, int ql, int qr) {
 	if (t[id].l > qr || t[id].r < ql) return 0;
 	if (ql <= t[id].l && t[id].r <= qr) return t[id].sum;
 	if (qr <= mid) return query(lc, ql, qr);
@@ -64,9 +59,8 @@ int main() {
 		memset(t, 0, sizeof t);
 		build(1, 1, n);
 		cout << "Case #" << ++cas << ":\n";
-		int Q;
-		cin >> Q;
-		while (Q--) {
+		cin >> m;
+		while (m--) {
 			int op, le, ri;
 			cin >> op >> le >> ri;
 			if (le > ri) swap(le, ri);
