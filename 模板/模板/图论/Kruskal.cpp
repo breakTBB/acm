@@ -3,7 +3,7 @@
 #include<iostream>
 #include<algorithm>
 using namespace std;
-int fa[200005],size[200005];
+int fa[200005], sz[200005];
 struct edge
 {
     int x,y,v;
@@ -20,8 +20,8 @@ inline int find(int x)
 void merge(int x,int y)
 {
     int xx=find(x),yy=find(y);
-    if(size[xx]<size[yy])swap(xx,yy);
-    fa[yy]=xx;size[xx]+=size[yy];
+    if(sz[xx]<sz[yy])swap(xx,yy);
+    fa[yy]=xx;sz[xx]+=sz[yy];
 }
 bool both(int x,int y)
 {
