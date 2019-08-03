@@ -35,61 +35,25 @@ template<typename T> inline void write(T x) {
 	putchar((x % 10) ^ 48);
 }
 
-const int N = 3010, mod = 998244353;
-int d[N][N], c[N][N], f[N][N];
+const int N = 2010;
+int k;
 char s1[N], s2[N];
-int t, n, m;
+int dp[N][N];
 
-ll comb[N][N];
-
-ll dfs(int x, int y)
-{
-	if (y > x) return 0;
-	if (comb[x][y] != -1) return comb[x][y];
-	if (y == 0) return 1;
-	if (x == 0) return 0;
-	return comb[x][y] = (dfs(x - 1, y - 1) + dfs(x - 1, y)) % mod;
+int calc(int i, int j) {
+	return abs((s1[i] - 'a') - (s2[j] - 'a'));
 }
 
 int main() {
-	memset(comb, -1, sizeof comb);
-	// dbg(dfs(5, 2));
-	read(t);
-	while (t--) {
-		memset(d, 0, sizeof d);
-		memset(f, 0, sizeof f);
-		read(n), read(m);
-		scanf("%s%s", s1 + 1, s2 + 1);
-		int ans = 0;
-		for (int i = 1; i <= n; i++)
-			for (int j = 1; j <= m; j++)
-				d[i][j] = f[i][j] = 0;
-		for (int i = 1; i <= n; i++) {
-			f[i - 1][0] = 1;
-			if (s1[i] != '0' && (n - i + 1 > m)) {
-				rep(ttt, m, n - i)
-					ans += dfs(n - i, ttt);
-				ans %= mod;
-			}
-			for (int j = 1; j <= min(i, m); j++) {
-				f[i][j] += f[i - 1][j];
-				f[i][j] %= mod;
-				d[i][j] += d[i - 1][j];
-				d[i][j] %= mod;
-				d[i][j] += d[i - 1][j - 1];
-				d[i][j] %= mod;
-				if (s1[i] > s2[j])
-					d[i][j] += f[i - 1][j - 1];
-				else if (s1[i] == s2[j])
-					f[i][j] += f[i - 1][j - 1];
-				d[i][j] %= mod;
-				f[i][j] %= mod;
-			}
+	scanf("%s%s%d", s1 + 1, s2 + 1, &k);
+	int len1 = strlen(s1 + 1), len2 = strlen(s2 + 1);
+	memset(dp, 0x3f, sizeof dp);
+	dp[0][0] = 0;
+	for (int i = 0; i <= len1; ++i)
+		for (int j = 0; j <= len2; ++j) {
+			if (i) dp[i][j] = min(dp[i][j], dp[i - 1][j] + k);
+			if (j) dp[i][j] = min(dp[i][j], dp[i][j - 1] + k);
+			if (i && j) dp[i][j] = min(dp[i][j], dp[i - 1][j - 1] + calc(i, j));
 		}
-		ans += d[n][m];
-		ans %= mod;
-		printf("%d\n", ans);
-	}
-
-	return 0;
+	printf("%d\n", dp[len1][len2]);
 }

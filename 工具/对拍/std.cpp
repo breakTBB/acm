@@ -1,19 +1,35 @@
-#include <cstdio>
+#include <bits/stdc++.h>
+#define rep(i, a, b) for (register int i = a; i <= b; i++)
 using namespace std;
-typedef long long LL;
-const int N=10000010;
-LL n,ansl[N],ansr[N];
-int main(){
-    while(~scanf("%lld",&n)){
-        LL l=1,r=0,s=0;int cnt=0;
-        for(;l*l<=n;s-=l*l,l++){
-            while((r+1)*(r+1)<=n&s<n){r++;s+=r*r;}
-            if(s==n){ansl[++cnt]=l;ansr[cnt]=r+1;}
-        }printf("%d\n",cnt);
-        for(int i=1;i<=cnt;i++){
-            printf("%lld",ansr[i]-ansl[i]);
-            for(int j=ansl[i];j<ansr[i];j++)printf(" %d",j);
-            puts("");
+typedef long long ll;
+const int mod = 998244353;
+ 
+ll a[3010][3010];
+int n,m;
+char s[3010],t[3010];
+ll ans=0;
+ll dp[3010][3010];
+int main() {
+    int T;
+    cin>>T;
+    a[0][0]=1;
+    rep(i,1,3005)rep(j,0,i)a[i][j]=(a[i-1][j-1]+a[i-1][j])%mod;
+    while(T--){
+        cin>>n>>m;
+        cin>>s>>t;
+        ans=0;
+        rep(i,0,n-m-1)if(s[i]!='0')rep(j,m,n-i-1)ans=(ans+a[n-i-1][j])%mod;
+        rep(i,0,n)rep(j,0,m)dp[i][j]=0;
+        for(int j=m-1;j>=0;j--){
+            for(int i=n-m+j;i>=0;i--){
+                if(s[i]==t[j])
+                    dp[i][j]=dp[i+1][j+1];
+                else if(s[i]>t[j])
+                    dp[i][j]=a[n-i-1][m-j-1];
+                dp[i][j]=(dp[i][j]+dp[i+1][j])%mod;
+            }
         }
-    }return 0;
+        cout<<(ans+dp[0][0])%mod<<endl;
+    }
+    return 0;   
 }

@@ -1,3 +1,6 @@
+// https://www.luogu.org/problem/P1466
+// 01背包
+
 #include <bits/stdc++.h>
 #define rep(i, a, b) for (int i = a; i <= b; i++)
 #define per(i, a, b) for (int i = a; i >= b; i--)
@@ -19,7 +22,7 @@ const int inf = 0x3f3f3f3f;
 int _, __, ___;
 
 template<typename T> inline void read(T& ret) {
-	ret = 0; int f = 1; register char c = getchar();
+	ret = 0; int f = 1; char c = getchar();
 	while (!isdigit(c)) { if (c == '-') f = 0; c = getchar(); }
 	while (isdigit(c)) { ret = (ret << 3) + (ret << 1) + (c ^ 48); c = getchar(); }
 	ret = f ? ret : -ret;
@@ -35,61 +38,23 @@ template<typename T> inline void write(T x) {
 	putchar((x % 10) ^ 48);
 }
 
-const int N = 3010, mod = 998244353;
-int d[N][N], c[N][N], f[N][N];
-char s1[N], s2[N];
-int t, n, m;
-
-ll comb[N][N];
-
-ll dfs(int x, int y)
-{
-	if (y > x) return 0;
-	if (comb[x][y] != -1) return comb[x][y];
-	if (y == 0) return 1;
-	if (x == 0) return 0;
-	return comb[x][y] = (dfs(x - 1, y - 1) + dfs(x - 1, y)) % mod;
-}
+const int N = 100010;
+int n, s;
+ll dp[N];
 
 int main() {
-	memset(comb, -1, sizeof comb);
-	// dbg(dfs(5, 2));
-	read(t);
-	while (t--) {
-		memset(d, 0, sizeof d);
-		memset(f, 0, sizeof f);
-		read(n), read(m);
-		scanf("%s%s", s1 + 1, s2 + 1);
-		int ans = 0;
-		for (int i = 1; i <= n; i++)
-			for (int j = 1; j <= m; j++)
-				d[i][j] = f[i][j] = 0;
-		for (int i = 1; i <= n; i++) {
-			f[i - 1][0] = 1;
-			if (s1[i] != '0' && (n - i + 1 > m)) {
-				rep(ttt, m, n - i)
-					ans += dfs(n - i, ttt);
-				ans %= mod;
-			}
-			for (int j = 1; j <= min(i, m); j++) {
-				f[i][j] += f[i - 1][j];
-				f[i][j] %= mod;
-				d[i][j] += d[i - 1][j];
-				d[i][j] %= mod;
-				d[i][j] += d[i - 1][j - 1];
-				d[i][j] %= mod;
-				if (s1[i] > s2[j])
-					d[i][j] += f[i - 1][j - 1];
-				else if (s1[i] == s2[j])
-					f[i][j] += f[i - 1][j - 1];
-				d[i][j] %= mod;
-				f[i][j] %= mod;
-			}
-		}
-		ans += d[n][m];
-		ans %= mod;
-		printf("%d\n", ans);
+	read(n);
+	s = n * (n + 1) / 2;
+	if (s & 1) {
+		puts("0");
+		return 0;
 	}
-
+	dp[0] = 1;
+	for (int i = 1; i <= n; i++) {
+		for (int j = s / 2; j >= i; j--) {
+			dp[j] += dp[j - i];
+		}
+	}
+	printf("%d", dp[s / 2] / 2);
 	return 0;
 }

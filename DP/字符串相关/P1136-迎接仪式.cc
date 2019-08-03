@@ -35,61 +35,42 @@ template<typename T> inline void write(T x) {
 	putchar((x % 10) ^ 48);
 }
 
-const int N = 3010, mod = 998244353;
-int d[N][N], c[N][N], f[N][N];
-char s1[N], s2[N];
-int t, n, m;
-
-ll comb[N][N];
-
-ll dfs(int x, int y)
-{
-	if (y > x) return 0;
-	if (comb[x][y] != -1) return comb[x][y];
-	if (y == 0) return 1;
-	if (x == 0) return 0;
-	return comb[x][y] = (dfs(x - 1, y - 1) + dfs(x - 1, y)) % mod;
-}
+const int N = 510;
+const int K = 110;
+int n, k;
+int l[N], dp[N][K][K];
+char tmp[N];
 
 int main() {
-	memset(comb, -1, sizeof comb);
-	// dbg(dfs(5, 2));
-	read(t);
-	while (t--) {
-		memset(d, 0, sizeof d);
-		memset(f, 0, sizeof f);
-		read(n), read(m);
-		scanf("%s%s", s1 + 1, s2 + 1);
-		int ans = 0;
-		for (int i = 1; i <= n; i++)
-			for (int j = 1; j <= m; j++)
-				d[i][j] = f[i][j] = 0;
-		for (int i = 1; i <= n; i++) {
-			f[i - 1][0] = 1;
-			if (s1[i] != '0' && (n - i + 1 > m)) {
-				rep(ttt, m, n - i)
-					ans += dfs(n - i, ttt);
-				ans %= mod;
-			}
-			for (int j = 1; j <= min(i, m); j++) {
-				f[i][j] += f[i - 1][j];
-				f[i][j] %= mod;
-				d[i][j] += d[i - 1][j];
-				d[i][j] %= mod;
-				d[i][j] += d[i - 1][j - 1];
-				d[i][j] %= mod;
-				if (s1[i] > s2[j])
-					d[i][j] += f[i - 1][j - 1];
-				else if (s1[i] == s2[j])
-					f[i][j] += f[i - 1][j - 1];
-				d[i][j] %= mod;
-				f[i][j] %= mod;
-			}
-		}
-		ans += d[n][m];
-		ans %= mod;
-		printf("%d\n", ans);
+	memset(dp, ~63, sizeof dp);
+	read(n), read(k);
+	scanf("%s", tmp + 1);
+	for (int i = 1; i <= n; i++) {
+		if (tmp[i] == 'z') l[i] = 1;
+		else l[i] = 0;
 	}
-
+	dp[0][0][0] = dp[1][0][0] = dp[1][l[1]][l[1]] = 0;
+	for (int i = 2; i <= n; i++)
+		for (int j = 0; j <= k; ++j)
+			for (int jj = 0; jj <= k; ++jj) {
+				dp[i][j][jj] = dp[i - 1][j][jj];
+				//jz
+				if (!l[i - 1] && l[i]) 
+					dp[i][j][jj] = max(dp[i][j][jj], dp[i - 2][j][jj] + 1);
+				//zz
+				if (jj && l[i] && l[i - 1]) 
+					dp[i][j][jj] = max(dp[i][j][jj], dp[i - 2][j][jj - 1] + 1);
+				//jj
+				if (j && !l[i] && !l[i - 1]) 
+					dp[i][j][jj] = max(dp[i][j][jj], dp[i - 2][j - 1][jj] + 1);
+				//zj
+				if (j && jj && !l[i] && l[i - 1]) 
+					dp[i][j][jj] = max(dp[i][j][jj], dp[i - 2][j - 1][jj - 1] + 1);
+			}
+	int ans = 0;
+	rep(i, 0, k) {
+		ans = max(ans, dp[n][i][i]);
+	}
+	printf("%d\n", ans);
 	return 0;
 }
