@@ -1,35 +1,72 @@
-#include <bits/stdc++.h>
-#define rep(i, a, b) for (register int i = a; i <= b; i++)
+#include<bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-const int mod = 998244353;
- 
-ll a[3010][3010];
-int n,m;
-char s[3010],t[3010];
-ll ans=0;
-ll dp[3010][3010];
-int main() {
-    int T;
-    cin>>T;
-    a[0][0]=1;
-    rep(i,1,3005)rep(j,0,i)a[i][j]=(a[i-1][j-1]+a[i-1][j])%mod;
-    while(T--){
-        cin>>n>>m;
-        cin>>s>>t;
-        ans=0;
-        rep(i,0,n-m-1)if(s[i]!='0')rep(j,m,n-i-1)ans=(ans+a[n-i-1][j])%mod;
-        rep(i,0,n)rep(j,0,m)dp[i][j]=0;
-        for(int j=m-1;j>=0;j--){
-            for(int i=n-m+j;i>=0;i--){
-                if(s[i]==t[j])
-                    dp[i][j]=dp[i+1][j+1];
-                else if(s[i]>t[j])
-                    dp[i][j]=a[n-i-1][m-j-1];
-                dp[i][j]=(dp[i][j]+dp[i+1][j])%mod;
-            }
-        }
-        cout<<(ans+dp[0][0])%mod<<endl;
+int n;
+string s[100011];
+void init(){
+    scanf("%d",&n);
+    unordered_set<string> st;
+    for (int i=1;i<=n;++i){
+        static char ch[100];
+        scanf("%s",ch);
+        s[i]=ch;
+        if (st.find(s[i])!=st.end())
+            --i,--n;
+        else st.insert(s[i]);
     }
-    return 0;   
+    sort(s+1,s+n+1);
+    n=unique(s+1,s+n+1)-s-1;
+    shuffle(s+1,s+n+1,mt19937(19260817));
+}
+int A[100],used[100];
+bool check(){
+    for (int i=1;i<=n;++i){
+        int y=0,m=0,d=0;
+        for (int j=0;j<4;++j)
+            y=y*10+A[s[i][j]-'A'];
+        for (int j=5;j<7;++j)
+            m=m*10+A[s[i][j]-'A'];
+        for (int j=8;j<10;++j)
+            d=d*10+A[s[i][j]-'A'];         
+//      cerr<<y<<' '<<m<<' '<<d<<endl;
+        if (y<1600) return false;
+        if (m>12) return false;
+        if (d>31) return false;
+        if ((m==4 || m==6 || m==9 || m==11) && d==31) return false;
+        if (m==2 && d>28+(y%4==0 && (y%100!=0 || y%400==0))) return false;
+        if (m<3) --y,m+=12;
+        if ((365*y+y/4-y/100+y/400+(153*(m-3)+2)/5+d-307+1)%7!=5) return false;
+    }
+    return true;
+}
+bool solved;
+void DFS(int dep){
+    if (solved) return;
+    if (dep==10){
+        if (check()){
+            solved=1;
+            for (int i=0;i<10;++i) printf("%d",A[i]);
+            puts("");
+        }
+        return;
+    }
+    for (int i=0;i<10;++i) if (!used[i]){
+        used[i]=1;
+        A[dep]=i;
+        DFS(dep+1);
+        used[i]=0;
+    }
+}
+void work(){
+    solved=0;
+    DFS(0);
+    if (!solved) puts("Impossible");
+}
+int main(){
+    int T; scanf("%d",&T);
+    for (int i=1;i<=T;++i){
+        init();
+        printf("Case #%d: ",i);
+        work();
+    }
+    return 0;
 }
