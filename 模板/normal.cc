@@ -13,6 +13,7 @@
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
+const int inf = 0x3f3f3f3f;
 
 template<typename T> inline void read(T &ret) {
 	ret = 0; T f = 1; char c = getchar();
