@@ -1,72 +1,60 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#define rep(i, a, b) for (int i = a; i <= b; i++)
+#define per(i, a, b) for (int i = a; i >= b; i--)
+#define dbg(x) cout<<#x<<" = "<<(x)<<endl;
+#define hi puts("hi!");
+#define FASTIO ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define FIN freopen("C:\\Users\\prism\\Desktop\\in.in", "r", stdin);
+#define FOUT freopen("C:\\Users\\prism\\Desktop\\out.txt", "w", stdout);
+#define STINIT(st) while(st.size()) st.pop();
+#define lc (id << 1)
+#define rc (id << 1 | 1)
+#define mid (t[id].l + t[id].r >> 1)
+const int inf = 0x3f3f3f3f;
+int _, __, ___;
 using namespace std;
-int n;
-string s[100011];
-void init(){
-    scanf("%d",&n);
-    unordered_set<string> st;
-    for (int i=1;i<=n;++i){
-        static char ch[100];
-        scanf("%s",ch);
-        s[i]=ch;
-        if (st.find(s[i])!=st.end())
-            --i,--n;
-        else st.insert(s[i]);
-    }
-    sort(s+1,s+n+1);
-    n=unique(s+1,s+n+1)-s-1;
-    shuffle(s+1,s+n+1,mt19937(19260817));
+typedef long long ll;
+typedef pair<int, int> pii;
+
+template<typename T> inline void read(T& ret) {
+	ret = 0; T f = 1; char c = getchar();
+	while (!isdigit(c)) { if (c == '-') f = -1; c = getchar(); }
+	while (isdigit(c)) { ret = (ret << 3) + (ret << 1) + (c ^ 48); c = getchar(); }
 }
-int A[100],used[100];
-bool check(){
-    for (int i=1;i<=n;++i){
-        int y=0,m=0,d=0;
-        for (int j=0;j<4;++j)
-            y=y*10+A[s[i][j]-'A'];
-        for (int j=5;j<7;++j)
-            m=m*10+A[s[i][j]-'A'];
-        for (int j=8;j<10;++j)
-            d=d*10+A[s[i][j]-'A'];         
-//      cerr<<y<<' '<<m<<' '<<d<<endl;
-        if (y<1600) return false;
-        if (m>12) return false;
-        if (d>31) return false;
-        if ((m==4 || m==6 || m==9 || m==11) && d==31) return false;
-        if (m==2 && d>28+(y%4==0 && (y%100!=0 || y%400==0))) return false;
-        if (m<3) --y,m+=12;
-        if ((365*y+y/4-y/100+y/400+(153*(m-3)+2)/5+d-307+1)%7!=5) return false;
-    }
-    return true;
+ll read() {
+	ll ret = 0, f = 1; char c = getchar();
+	while (!isdigit(c)) { if (c == '-') f = -1; c = getchar(); }
+	while (isdigit(c)) { ret = (ret << 3) + (ret << 1) + (c ^ 48); c = getchar(); }
+	return ret * f;
 }
-bool solved;
-void DFS(int dep){
-    if (solved) return;
-    if (dep==10){
-        if (check()){
-            solved=1;
-            for (int i=0;i<10;++i) printf("%d",A[i]);
-            puts("");
-        }
-        return;
-    }
-    for (int i=0;i<10;++i) if (!used[i]){
-        used[i]=1;
-        A[dep]=i;
-        DFS(dep+1);
-        used[i]=0;
-    }
+
+const int N = 160;
+struct node {
+	int x, y;
+}a[N];
+double cal(int i, int j) {
+	return sqrt((a[i].x - a[j].x) * (a[i].x - a[j].x) + (a[i].y - a[j].y) * (a[i].y - a[j].y));
 }
-void work(){
-    solved=0;
-    DFS(0);
-    if (!solved) puts("Impossible");
-}
-int main(){
-    int T; scanf("%d",&T);
-    for (int i=1;i<=T;++i){
-        init();
-        printf("Case #%d: ",i);
-        work();
-    }
-    return 0;
+int n, tmp;
+double dis[N][N], d[N];
+int main() {
+	n = read();
+	rep(i, 1, n) a[i].x = read(), a[i].y = read();
+	rep(i, 1, n) rep(j, 1, n) {
+		tmp = read();
+		if (tmp) dis[i][j] = cal(i, j);
+		else if (i != j) dis[i][j] = inf;
+	}
+	rep(k, 1, n) rep(i, 1, n) rep(j, 1, n) {
+		if (dis[i][j] > dis[i][k] + dis[k][j])
+			dis[i][j] = dis[i][k] + dis[k][j];
+	}
+	double di = 0;
+	rep(i, 1, n) rep(j, 1, n) {
+		if (dis[i][j] != inf) d[i] = max(dis[i][j], d[i]);
+		di = max(di, d[i]);
+	}
+	rep(i, 1, n) rep(j, 1, n) {
+		if (dis[i][j] == inf)
+	}
 }

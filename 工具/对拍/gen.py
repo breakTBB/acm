@@ -1,15 +1,13 @@
-import math
-
-n = int(input())
-a = list(map(int, input().split()))
-f = [[math.inf for i in range(60)] for i in range(60)]
-for i in range(0, n):
-    f[i][i + 1] = 0
-for len in range(2, n):
-    for l in range(0, n - len):
-        r = l + len
-        for k in range(l + 1, r):
-            f[l][r] = min(f[l][r], f[l][k] + f[k][r] + a[l] * a[r] * a[k])
-
-print(f[0][n - 1])
-
+n, m = map(int, input().split())
+a = [[0] for i in range(90)]
+for i in range(n):
+    a[i] = list(map(int, [i for i in input().split() if i != ' ']))
+ans = 0
+for i in range(n):
+    dp = [[0 for i in range(60)] for i in range(60)]
+    for len in range(1, m + 1):
+        for l in range(m - len + 1):
+            r = l + len - 1
+            dp[l][r] = max(dp[l + 1][r] + a[i][l] * 2 ** (m - len + 1), dp[l][r - 1] + a[i][r] * 2 ** (m - len + 1))
+    ans += dp[0][m - 1]
+print(ans)

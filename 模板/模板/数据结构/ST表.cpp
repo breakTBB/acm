@@ -8,13 +8,11 @@ char ch[ch_top],*now_r=ch-1,*now_w=ch-1;
 int mx[maxn][22];
 int lg[maxn];
 int max(int a,int b){return a>b?a:b;}
-inline int query(int l,int r)
-{
+inline int query(int l,int r) {
     int k=lg[r-l+1];
     return max(mx[l][k],mx[r-(1<<k)+1][k]);
 }
-int main()
-{
+int main() {
     lg[0]=-1;for(int i=1;i<maxn;i++)lg[i]=lg[i>>1]+1;
     scanf("%d%d",&n,&m);
     for(int i=1;i<=n;i++)scanf("%d",&mx[i][0]);
