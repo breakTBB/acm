@@ -2,6 +2,7 @@
 #define rep(i, a, b) for (int i = a; i <= b; i++)
 #define per(i, a, b) for (int i = a; i >= b; i--)
 #define dbg(x) cout<<#x<<" = "<<(x)<<endl;
+#define DEBUG printf("Passing [%s] in LINE %d\n",__FUNCTION__,__LINE__);
 #define hi puts("hi");
 #define FASTIO ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #define FIN freopen("C:\\Users\\prism\\Desktop\\in.txt", "r", stdin);
@@ -10,6 +11,8 @@
 #define lc (id << 1)
 #define rc (id << 1 | 1)
 #define mid (t[id].l + t[id].r >> 1)
+inline int inc(int x,int v,int mod){x+=v;return x>=mod?x-mod:x;}
+inline int dec(int x,int v,int mod){x-=v;return x<0?x+mod:x;}
 using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;

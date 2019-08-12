@@ -1,20 +1,17 @@
 from os import system
 import time
 
-system("python gen.py")
 system("g++ -o brute brute.cpp")
 system("g++ -o std std.cpp")
 i = 1
 
 while True:
-    
-    system("brute <in.txt >bout")
-    system("std <in.txt >sout")
-
+    system("python gen.py")
+    system("brute <in >bout")
+    system("std <in >sout")
+    time.sleep(2)
     if(system("fc bout sout")):
         print("GG")
         exit(0)
     print("Passed %d..."%i)
     i += 1
-
-    time.sleep(1)
