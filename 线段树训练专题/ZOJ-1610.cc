@@ -34,7 +34,6 @@ void build(int id, int l, int r) {
 }
 
 void update(int id, int ql, int qr, int val) {
-	// cout << "t[id].l = " << t[id].l << "t[id].r = " << t[id].r << endl;
 	if (t[id].l > qr || t[id].r < ql) return;
 	if (ql <= t[id].l && t[id].r <= qr) {
 		t[id].lazy = val;
@@ -50,7 +49,6 @@ void query(int id, int ql, int qr) {
 	if (t[id].l == t[id].r) {
 		if (t[id].lazy != -1 && t[id].lazy != last) col[t[id].lazy]++;
 		last = t[id].lazy;
-		// cout << "第" << ++cnt << "个节点：" << t[id].lazy << endl;
 		return;
 	}
 	pushdown(id);

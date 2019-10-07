@@ -1,4 +1,4 @@
-//最小生成树Prim算法 用上了堆（优先队列）优化  洛谷2330
+//鏈�灏忕敓鎴愭爲Prim绠楁硶 鐢ㄤ笂浜嗗爢锛堜紭鍏堥槦鍒楋級浼樺寲  娲涜胺2330
 #include<iostream>
 #include<queue>
 #include<cstdio>
@@ -13,6 +13,7 @@ bool operator <(const node &a,const node &b){
 	return a.d > b.d;
 }
 int n,m,ans,dist[301];
+// dist鐐瑰埌鏈�灏忕敓鎴愭爲s
 bool mark[301];
 int sz,to[30001],v[30001],pre[30001],last[301];
 priority_queue<node> q;
@@ -27,7 +28,7 @@ void init(){
 		Ins(a,b,c);Ins(b,a,c);
 	}
 }
-void solve(){
+void solve() {
 	int num=0,i,now;
 	memset(dist,127,sizeof(dist));
 	dist[1]=0;

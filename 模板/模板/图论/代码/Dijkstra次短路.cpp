@@ -11,7 +11,7 @@
 #define MAXN (5000 + 10)
 #define INF (5000*5000*2)
 using namespace std;
- 
+
 struct edge{
     int to, cost;
     edge(int tv = 0, int tc = 0):
@@ -56,7 +56,7 @@ void solve(){
     }
     printf("%d\n", dist2[N-1]);
 }
- 
+
 int main(){
     int A, B, D;
     scanf("%d%d", &N, &R);

@@ -1,6 +1,4 @@
-#define POJ
-#define DEBUG
-
+//#define POJ
 #ifdef POJ
 #include  <map>
 #include  <set>
@@ -22,12 +20,11 @@
 #else
 #define dbg(x)
 #endif // _DEBUG
-
-#define rep(i, a, b) for (int i = a; i <= b; i++)
-#define per(i, a, b) for (int i = a; i >= b; i--)
+#define rep(i, a, b) for (register int i = a; i <= b; i++)
+#define per(i, a, b) for (register int i = a; i >= b; i--)
 #define hi puts("hi!");
-#define FASTIO ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define FIN freopen("C:\\Users\\prism\\Desktop\\interval0.in", "r", stdin);
+#define gkd ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define FIN freopen("C:\\Users\\prism\\Desktop\\in.in", "r", stdin);
 #define FOUT freopen("C:\\Users\\prism\\Desktop\\out.txt", "w", stdout);
 #define STINIT(st) while(st.size()) st.pop();
 #define lc (id << 1)
@@ -36,21 +33,25 @@
 inline int inc(int x, int v, int mod) { x += v; return x >= mod ? x - mod : x; }
 inline int dec(int x, int v, int mod) { x -= v; return x < 0 ? x + mod : x; }
 const int inf = 0x3f3f3f3f;
+//const double pi = acos(-1);
+const double eps = 1e-8;
 int _, __, ___;
 using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 typedef pair<int, int> pii;
-
 template<typename T> inline void read(T& ret) {
 	ret = 0; T f = 1; char c = getchar();
 	while (!isdigit(c)) { if (c == '-') f = -1; c = getchar(); }
 	while (isdigit(c)) { ret = (ret << 3) + (ret << 1) + (c ^ 48); c = getchar(); }
-	ret *= f;
+	ret = ret * f;
 }
-template <typename T, typename... Args> inline void reads(T& t, Args& ... args){
-	redi(t); redi(args...);
+#ifndef POJ
+template <typename T, typename... Args> inline void read(T& t, Args& ... args) {
+	read(t); read(args...);
 }
+#endif // !POJ
+
 ll read() {
 	ll ret = 0, f = 1; char c = getchar();
 	while (!isdigit(c)) { if (c == '-') f = -1; c = getchar(); }
@@ -58,6 +59,16 @@ ll read() {
 	return ret * f;
 }
 
-int main() {
+const int N = 1010;
+ll a[N], mx[N], mn[N];
 
+int main() {
+	int n = read();
+	rep(i, 1, n) a[i] = read();
+	mx[0] = mn[0] = 1;
+	rep(i, 1, n) {
+		mx[i] = max(max(mx[i], mx[i - 1] * a[i]), mn[i - 1] * a[i]);
+		mn[i] = min(min(mn[i], mn[i - 1] * a[i]), mx[i - 1] * a[i]);
+	}
+	cout << mx[n];
 }

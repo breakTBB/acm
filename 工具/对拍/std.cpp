@@ -1,24 +1,33 @@
 #include <bits/stdc++.h>
-#define rep(i,a,b) for(register int i=a;i<=b;i++)
-using namespace std;
-typedef long long ll;
-const int mod = 998244353;
 
-int main()
-{
-//  freopen("in.txt","r",stdin);
-    char s[100010]={'\0'};
-    cin>>s;
-    int a[100010]={0},ans=0;
-    int ind=1;
-    for(int i=0;s[i]!='\0';i++){
-        a[ind]=s[i];
-        while(ind>=3&&a[ind]==a[ind-1]&&a[ind-1]==a[ind-2]){
-            ind-=3;
-            ans++;
-        }
-        ind++;
-    }
-    cout<<ans;
-    return 0;
-}
+using namespace std;
+typedef long long LL;
+const int maxn = 1e6 + 10;
+LL ans[maxn];
+
+int main() {
+	for (LL i = 1; i < maxn; i++) {
+		int d1 = i % 10;
+		int d2 = (i/10) % 10;
+		int d3 = (i/100) % 10;
+		int d4 = (i/1000) % 10;
+		int d5 = (i/10000) % 10;
+		int d6 = (i/100000) % 10;
+		int d7 = (i/100000) % 10;
+		if (i % 7 == 0||d1==7||d2==7
+			||d3==7||d4==7||d5==7
+			||d6==7||d7==7) {
+				ans[i] = ans[i-1];
+			}
+		else {
+			ans[i] = ans[i-1] + i * i;
+		}
+	}
+	int cnt;
+	cin >> cnt;
+	while (cnt--) {
+		int n;
+		cin >> n;
+		cout << ans[n] << endl;
+	}
+} 
