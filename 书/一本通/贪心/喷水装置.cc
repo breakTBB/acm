@@ -2,13 +2,6 @@
 // 抽象出每一次选择的动作
 #include <bits/stdc++.h>
 
-#ifdef _DEBUG
-#define dbg(x) cout<<#x<<" = "<<(x)<<endl;
-#define hi puts("hi!");
-#define FIN freopen("C:\\Users\\prism\\Desktop\\in.in", "r", stdin);
-#define FOUT freopen("C:\\Users\\prism\\Desktop\\out.txt", "w", stdout);
-#endif // _DEBUG
-
 #define rep(i, a, b) for (register int i = a; i <= b; i++)
 #define per(i, a, b) for (register int i = a; i >= b; i--)
 
@@ -23,7 +16,6 @@ typedef pair<double, int> pdi;
 int n;
 double L, W;
 int p, r;
-int vis[15010];
 
 struct node {
 	double x, y, r;
@@ -59,7 +51,6 @@ int main() {
 		sort(line + 1, line + n + 1);
 		int ans = 0, cur = 0;
 		double last = 0;
-        // 抽象出这个选择的过程
 		while (line[cur].y < L && cur <= n) {
 			int mx = cur, j = cur;
 			for (int j = cur + 1; line[j].x <= last && j <= n; j++) {
