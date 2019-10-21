@@ -1,5 +1,6 @@
 // 从无序到有序 降维！！！
-// 
+// 也就是离线处理的基本动机
+
 #include <bits/stdc++.h>
 
 #define rep(i, a, b) for (register int i = a; i <= b; i++)
