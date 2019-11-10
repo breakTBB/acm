@@ -48,7 +48,7 @@ int main() {
     scanf("%d%d%d",&n,&m,&s);
     for(int i=1;i<n;i++) {
         scanf("%d",&a1);scanf("%d",&a2);
-        edge_add(a1,a2);//链式存边 
+        edge_add(a1,a2);//链式存边
     }
     dfs(s,0);
     for(int i=1;i<=m;i++) {

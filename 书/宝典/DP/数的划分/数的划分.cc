@@ -15,16 +15,11 @@ int read() {
     while(isdigit(c)) { ret = ret * 10 + c - '0'; c = getchar(); }
     return ret * f;
 }
+int dp[210][10];
 
-int W[410], L[410], C[410], dp[4000010];
 int main() {
-    int n = read();
-    int sum = 0;
-    rep(i, 1, n) {
-        int a = read(), b = read(), c = read();
-        W[i] = a, L[i] = b, C[i] = c;
-        sum = max(sum, L[i]);
-    }
-    rep(i, 1, n) rep(j, 1, C[i]) per(k, sum, W[i]) if (k <= L[i]) dp[k] = max(dp[k], dp[k - W[i]] + W[i]);
-    printf("%d\n", dp[sum]);
+    int n = read(), k = read();
+    dp[1][1] = 1;
+    rep(i, 2, n) rep(j, 1, k) if (i >= j) dp[i][j] = dp[i - 1][j - 1] + dp[i - j][j];
+    printf("%d\n", dp[n][k]);
 }

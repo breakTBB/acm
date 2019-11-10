@@ -16,15 +16,13 @@ int read() {
     return ret * f;
 }
 
-int W[410], L[410], C[410], dp[4000010];
 int main() {
+    double v[2], m = 1;
     int n = read();
-    int sum = 0;
-    rep(i, 1, n) {
-        int a = read(), b = read(), c = read();
-        W[i] = a, L[i] = b, C[i] = c;
-        sum = max(sum, L[i]);
+    scanf("%lf", &v[0]);
+    rep(i, 2, n) {
+        scanf("%lf", &v[i - 1 & 1]);
+        if (v[i - 1 & 1] > v[i & 1]) m = m / v[i & 1] * v[i - 1 & 1];
     }
-    rep(i, 1, n) rep(j, 1, C[i]) per(k, sum, W[i]) if (k <= L[i]) dp[k] = max(dp[k], dp[k - W[i]] + W[i]);
-    printf("%d\n", dp[sum]);
+    printf("%.4f\n", m);
 }
