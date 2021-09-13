@@ -1,16 +1,12 @@
 import random
 
-def incrementV5(x):
-    for i in range(1000000):
-        prism = random.randint(-10000, 10000)
-        if prism == x + 1:
-            return prism
-    return random.randint(-10000, 10000)
+cnt = random.randint(1, 1000)
 
-print(incrementV5(10))
-# with open(r"C:\Users\prism\Desktop\acm-training\工具\对拍\in", "w") as f:
-#     cnt = random.randint(10, 20)
-#     f.write(str(cnt) + '\n')
-#     for i in range(cnt):
-#         f.write(str(random.randint(10, 1000000)) + '\n')
-
+with open(r"C:\Users\PRISM17\Desktop\acm-training\工具\对拍\in", "w") as f:
+    cnt =    random.randint(1, 10)
+    print(cnt, end='\n', file=f)
+    for i in range(cnt):
+        left = random.randint(1, 10)
+        right = left + random.randint(1, 10)
+        print(left, end=' ', file=f)
+        print(right, end='\n', file=f)

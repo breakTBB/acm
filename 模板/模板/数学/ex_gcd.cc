@@ -1,72 +1,68 @@
-#include <bits/stdc++.h>
+// https://amoshyc.github.io/ojsolution-build/template/math/crt.html
 
-#ifdef _DEBUG
-#define dbg(x) cout << #x << " = " << (x) << endl;
-#define hi puts("hi!");
-#define FIN freopen("C:\\Users\\prism\\Desktop\\in.in", "r", stdin);
-#define FOUT freopen("C:\\Users\\prism\\Desktop\\out.txt", "w", stdout);
-#endif // _DEBUG
 
-#define rep(i, a, b) for (register int i = a; i <= b; i++)
-#define per(i, a, b) for (register int i = a; i >= b; i--)
-
-const int inf = 0x3f3f3f3f;
-const double eps = 1e-8;
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
-typedef pair<int, int> pii;
-typedef pair<double, int> pdi;
 
-ll x, y;
-ll ex_gcd(ll a, ll b) {
+typedef long long ll;
+
+struct Item {
+    ll m, r;
+};
+
+ll extgcd(ll a, ll b, ll& x, ll& y) {
     if (b == 0) {
         x = 1;
         y = 0;
         return a;
     }
-    ll g = ex_gcd(b, a % b);
-    ll t = x;
-    x = y;
-    y = t - a / b * y;
-    return g;
+    else {
+        ll d = extgcd(b, a % b, y, x);
+        y -= (a / b) * x;
+        return d;
+    }
 }
-int main(void) {
-    ll n, p, w, d;
-    cin >> n >> p >> w >> d;
-    ll a, b, c;
-    a = w, b = d, c = p;
-    ll g = ex_gcd(a, b);
-    if (c % g) {
-        puts("-1");
-        return 0;
+
+Item extcrt(const vector<Item>& v) {
+    ll m1 = v[0].m, r1 = v[0].r, x, y;
+
+    for (int i = 1; i < int(v.size()); i++) {
+        ll m2 = v[i].m, r2 = v[i].r;
+        ll g = extgcd(m1, m2, x, y); // now x = (m/g)^(-1)
+
+        if ((r2 - r1) % g != 0)
+            return { -1, -1 };
+
+        ll k = (r2 - r1) / g * x % (m2 / g);
+        k = (k + m2 / g) % (m2 / g); // for the case k is negative
+
+        ll m = m1 * m2 / g;
+        ll r = (m1 * k + r1) % m;
+
+        m1 = m;
+        r1 = (r + m) % m; // for the case r is negative
     }
-    ll x1, y1, x2, y2;
 
-    ll t = b / g;
-    if (t < 0)
-        t = -t;
-    x1 = ((x * c / g) % t + t) % t;
-    y1 = (c - a * x1) / b;
-    if (y1 < 0) y1 = -y1;
+    return (Item) { m1, r1 };
+}
 
-    t = a / g;
-    if (t < 0)
-        t = -t;
-    y2 = ((y * c / g) % t + t) % t;
-    x2 = (c - b * y2) / a;
-    if (x2 < 0) x2 = -x2;
+int main() {
+    int K;
+    while (scanf("%d", &K) != EOF) {
+        vector<Item> v;
+        for (int i = 0; i < K; i++) {
+            Item item;
+            scanf("%lld %lld", &item.m, &item.r);
+            v.push_back(item);
+        }
 
-    int mx, my;
-
-    if (x1 + y1 < x2 + y2)
-        mx = x1, my = y1;
-    else
-        mx = x2, my = y2;
-    if (mx + my > n) {
-        puts("-1");
-        return 0;
+        printf("%lld\n", extcrt(v).r);
     }
-    cout << mx << ' ' << my << ' ' << n - mx - my << endl;
+
     return 0;
 }
