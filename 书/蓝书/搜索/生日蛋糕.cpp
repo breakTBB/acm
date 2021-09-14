@@ -12,7 +12,6 @@ void dfs(int depth, int r, int h, int s, int v) {
         if (!v) ans = min(ans, s);
         return;
     }
-
     if (s + mns[depth] >= ans) return;
     if (v < mnv[depth]) return;
     int boundR = min((int)sqrt(v), r - 1);
